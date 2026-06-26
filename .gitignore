@@ -1,0 +1,36 @@
+# --- never commit copyrighted game data ---
+*.nds
+*.srl
+arm9.bin
+add0*dat.bin
+ovl_*.bin
+overlay/
+kr/
+build/
+data/
+
+# --- intermediate dumps / savestates ---
+*.dst
+_sstate.bin
+_vram.bin
+_pal.bin
+*.sav
+
+# --- the full game script (jp+ko) is not redistributed here ---
+srwk_scenario_clean*.json
+srwk_battle*.json
+srwk_arm9_text.json
+_credits*.json
+
+# --- python ---
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# --- generated renders (keep only docs/images) ---
+/_*.png
+_c1024_*.png
+_v8_*.png
+_eye_*.png
+_a02sheet_*.png

@@ -1,0 +1,4 @@
+ndspy
+pillow
+numpy
+capstone
