@@ -42,8 +42,8 @@ def nodes_equal(json_ko, dec_nodes):
 
 MAX_LINES = 3   # the on-screen dialogue box shows at most 3 lines (verified: the
 #               shipped KR/JP scenario never has a node with >3 sub-lines)
-SAFE_WIDTH = MAX_LENGTH - 8   # reflow target with margin under the 176 game cap, so
-#                               no line sits at the very edge (defensive vs freeze)
+SAFE_WIDTH = MAX_LENGTH   # 176 = the verified game line cap; reverted the -8 margin
+#                           because it added split nodes and inflated block size
 
 
 def reflow(lines, limit=MAX_LENGTH):
