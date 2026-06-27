@@ -5,7 +5,7 @@ except inside the logo's own slot (no offset shift -> other images untouched).""
 import struct
 from srwk_rom import Rom
 from _codec1024 import decomp_1024
-from _enc1024 import build_ecd
+from _enc1024b import build_ecd2
 from _inject_title import rebuild_archive, archive_blocks_raw
 
 KR_ROM = '../Super Robot Wars K (Korean)-기존패치.nds'
@@ -22,7 +22,7 @@ print('orig block 2360: size=%d  payload(16+f2)=%d  trailing-pad=%d'
       % (len(orig), 16 + f2, len(orig) - (16 + f2)))
 assert len(pixb) == f3 - 8, (len(pixb), f3 - 8)
 
-raw = build_ecd(orig, pixb)
+raw = build_ecd2(orig, pixb, cap=1024)
 assert len(raw) <= len(orig), ("re-encoded bigger than slot!", len(raw), len(orig))
 new_block = raw + b'\x00' * (len(orig) - len(raw))      # pad to EXACT original size
 assert len(new_block) == len(orig)
