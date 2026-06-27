@@ -23,7 +23,12 @@ print('loaded', png, im.size)
 ss = open('_sstate.bin', 'rb').read()
 pal = open('_pal.bin', 'rb').read()
 i = ss.find(b'OAMS'); oam = ss[i+12:i+12+1024]
-FG = bytearray(open('_fg_new.bin', 'rb').read())
+# base tiles must match the canvas source: default = ORIGINAL Japanese VRAM tiles;
+# pass 'current' as 2nd arg to edit on top of my Korean redraw (_fg_new.bin).
+if len(sys.argv) > 2 and sys.argv[2] == 'current':
+    FG = bytearray(open('_fg_new.bin', 'rb').read()); print('base: current Korean tiles')
+else:
+    FG = bytearray(open('_vram.bin', 'rb').read()[0x90000:0x90000+0x8000]); print('base: ORIGINAL Japanese tiles')
 H, W = 224, 256
 
 def palcol(pn):

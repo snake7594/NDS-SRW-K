@@ -13,9 +13,13 @@ ss = open('_sstate.bin', 'rb').read()
 vram = open('_vram.bin', 'rb').read()
 pal = open('_pal.bin', 'rb').read()
 i = ss.find(b'OAMS'); oam = ss[i+12:i+12+1024]
-import os
-# current KOREAN tiles (so the canvas is my latest redraw to refine); fall back to original VRAM
-FG = open('_fg_new.bin', 'rb').read() if os.path.exists('_fg_new.bin') else vram[0x90000:0x90000+0x8000]
+import os, sys
+# default = ORIGINAL Japanese OBJ tiles (from the savestate VRAM);
+# pass 'current' to export my Korean redraw instead.
+if len(sys.argv) > 1 and sys.argv[1] == 'current' and os.path.exists('_fg_new.bin'):
+    FG = open('_fg_new.bin', 'rb').read(); print('source: current Korean tiles (_fg_new.bin)')
+else:
+    FG = vram[0x90000:0x90000+0x8000]; print('source: ORIGINAL Japanese tiles (VRAM)')
 
 def palcol(pn):
     base = 0x200 + pn*32; out = []
