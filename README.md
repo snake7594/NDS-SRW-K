@@ -4,15 +4,15 @@
 
 > ⚠️ **저작권**: 이 저장소에는 **게임 ROM, 추출한 게임 바이너리(arm9 / add0Xdat / overlay), 원본 게임 스크립트가 포함되어 있지 않습니다.** 도구를 사용하려면 본인이 합법적으로 소유한 ROM을 직접 덤프해야 합니다. 도구와 기술 문서, 결과 스크린샷만 공개합니다.
 
-| 타이틀 로고 (전/후) | 시나리오 제목 아이캐치 (게임 폰트 렌더) |
+| 타이틀 로고 (전/후) | 챕터 아이캐치 — 한국어 (전체 59화) |
 |---|---|
-| ![title](docs/images/_titleclean.png) | ![eyecatch](docs/images/_eyepreview.png) |
+| ![title](docs/images/_titleclean.png) | ![eyecatch](docs/images/_eyecatch_ko.png) |
 
 ---
 
 ## 패치 다운로드 & 적용 (Patch)
 
-완성된 한글 패치: **[`patch/SRWK-Korean.xdelta`](patch/SRWK-Korean.xdelta)** (약 1.5 MB, xdelta3 / VCDIFF)
+완성된 한글 패치: **[`patch/SRWK-Korean.xdelta`](patch/SRWK-Korean.xdelta)** (약 1.3 MB, xdelta3 / VCDIFF)
 
 1. xdelta 적용 도구(xdelta UI, Delta Patcher 등) 또는 명령줄:
    ```
@@ -21,9 +21,9 @@
 2. **기준 ROM** (본인이 합법적으로 덤프한 것):
    - `Super Robot Wars K (Japan).nds` — **67,108,864 바이트, CRC32 `D16DB8AF`**
 3. 결과 ROM:
-   - `Super Robot Wars K (Korean).nds` — **63,691,104 바이트, CRC32 `2F9DEECD`**
+   - `Super Robot Wars K (Korean).nds` — **63,691,104 바이트, CRC32 `41CDA9D4`**
 
-> 이 패치는 **YameSoft 한글 패치(ch1~24 등)를 기반으로**, 후반 시나리오 완역 · 메뉴/기체명/시스템 메시지/스태프 크레딧 · 타이틀 로고 한글화 · 대사 박스 프리즈 수정을 더한 것입니다. xdelta 패치는 차분(diff)일 뿐 게임 데이터를 포함하지 않으므로, 적용하려면 위 기준 ROM이 필요합니다.
+> 이 패치는 **YameSoft 한글 패치(ch1~24 등)를 기반으로**, 후반 시나리오 완역 · 메뉴/기체명/시스템 메시지/스태프 크레딧 · 타이틀 로고 한글화 · **전 챕터 아이캐치 한글화** · 대사 박스 프리즈 수정을 더한 것입니다. xdelta 패치는 차분(diff)일 뿐 게임 데이터를 포함하지 않으므로, 적용하려면 위 기준 ROM이 필요합니다.
 
 ---
 
@@ -37,7 +37,7 @@
 | 스태프 크레딧 (142개) | `overlay/ovl_003` | ✅ 한글 (오버레이 확장) |
 | 타이틀 로고 「スーパーロボット大戦」 | `data/add02dat.bin` #2360 | ✅ 「슈퍼로봇대전」 (4th 코덱 재주입) |
 | **용어 일관성 + 품질 리라이트** | 시나리오·전투 | ✅ YS 표기 통일(63규칙) + 전면 품질 리라이트 (시나리오 9.5K박스·전투, 적대적 검증 0오류) |
-| 시나리오 제목 아이캐치 (65개) | `data/add04dat.bin` IMG | ⏳ 일본어 (사전 렌더 이미지 — 별도 작업 예정) |
+| 챕터 아이캐치 「第N話 + 부제」 (59쌍) | `data/add02dat.bin` #2214~#2330 | ✅ 한국어 (Malgun Gothic 4bpp 재주입) |
 
 ---
 
@@ -70,6 +70,15 @@ ECD header:  f1=BE32[4:8]=8 preamble, f2=BE32[8:12]=compressed size, f3=BE32[12:
 ### 4. 폰트 / 아이캐치 렌더 경로
 - ROM의 글리프 폰트는 **단 하나**: arm9 0x4400A. 26바이트 레코드 `[u16 SJIS BE][24바이트 1bpp 12×16 비트맵]`, 코드 0x814D~0x9872. 한글 패치는 코드 ≥0x889F를 **KS X 1001 완성형 2350자**로 교체(검증: 0x889F=가).
 - (정정) 시나리오 제목 아이캐치는 **사전 렌더 이미지**(add04 IMG 타일 + SCR 타일맵 + PLT 팔레트)로 확인됨 — 현재 일본어이며 별도 작업 예정. (별밤 배경도 add04 IMG.)
+
+### 4. 챕터 아이캐치 한글화 ⭐
+
+각 챕터 시작 시 나오는 「第N話 + 부제」 카드(서브 화면 BG0, 4bpp AA 타일)는 런타임 텍스트 조합이 아니라 `add02dat.bin` 안에 **사전 렌더된 래스터 이미지**로 저장되어 있습니다 (블록 2214~2330, IMG+SCR 쌍 × 59화). YameSoft 패치에서 전혀 손대지 않아 한글 ROM에서도 여전히 일본어로 표시되는 부분이었습니다.
+
+- **렌더링**: Malgun Gothic TTF → RGBA 256×192 → alpha 기반 nibble 매핑(0=투명, 높을수록 흰색 15까지). AA 엣지가 자연스럽게 어두운 nibble로 매핑되어 윤곽선 효과를 냅니다.
+- **ECD 이중 헤더 함정**: `build_ecd2`의 preamble(f1=8바이트)에 원본 `IMG\x00` 헤더가 이미 들어있어, `new_pixels`로 `b'IMG\x00'...` 전체를 넘기면 헤더가 두 번 들어가 타일 데이터가 8바이트씩 어긋납니다. 수정: IMG는 tile_data만 넘기고 `new_preamble=b'IMG\x00'+pack('<HH',num_tiles,1)`로 헤더를 교체; SCR은 entry bytes만 넘기고 원본 preamble(`SCR\x00\x00\x20\x18\x00`) 자동 보존.
+- **문자 정규화**: Malgun Gothic에 없는 `・`(U+30FB) → `·`, `〜`(U+301C) → `~` 치환.
+- 59화 전부 원본 슬롯 크기 이내 (넘침 없음). 아카이브 오프셋 테이블은 블록 크기를 원본과 동일하게 패딩해 유지.
 
 ### 5. 대사 박스 3줄 제한 — 프리즈 수정 ⭐
 시나리오 대사 박스는 **최대 3줄(각 ≤176 폭단위; 한글 음절=12, 기타=8)**. 한글 번역이 일본어 원문보다 넓어 ch25+의 박스가 4~5줄로 넘쳐 **게임이 멈추고**, 넘친 박스가 다음 박스 렌더를 손상시켜 **글자가 깨지는** 버그가 있었습니다. `build_native.py`의 `json_to_nodes`에서 넘치는 박스를 **재배치(reflow) 후 균형 분할**(같은 화자명으로 이어지는 ≤3줄 박스)하여 **번역 손실 없이** 해결했습니다.
@@ -104,6 +113,8 @@ tools/
   _redraw2.py        ★ 타이틀 로고 OBJ 스프라이트 한글 재작도 (2D 매핑)
   _inject_title.py   / _inject_title3.py    타이틀 #2360 재인코딩·재주입
   _export_png.py     / _import_png.py    로고 PNG 추출/주입 (직접 편집용, display-lossless)
+  _eyecatch_inject.py  ★ 챕터 아이캐치 59화 한글 주입 (add02 #2214~#2330, Malgun Gothic)
+  _render_ko_eyecatch.py  아이캐치 주입 결과 미리보기 렌더 (add02_patched.bin → PNG)
   _eyepreview.py     아이캐치를 실제 게임 폰트로 렌더 (데모)
 docs/images/         결과 스크린샷
 title_logo/          타이틀 로고 직접 편집용 PNG 캔버스 + 영역 가이드 (편집법 README 포함)

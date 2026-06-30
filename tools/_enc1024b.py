@@ -64,9 +64,11 @@ def compress_pixels2(data, cap=1024, lazy=True):
                 stream.append(((length-3) & 0x3f) | (((disp >> 8) & 3) << 6))
     return bytes(stream)
 
-def build_ecd2(orig_ecd, new_pixels, cap=1024):
+def build_ecd2(orig_ecd, new_pixels, cap=1024, new_preamble=None):
     f1 = int.from_bytes(orig_ecd[4:8], 'big')
-    preamble = orig_ecd[0x10:0x10+f1]
+    preamble = new_preamble if new_preamble is not None else orig_ecd[0x10:0x10+f1]
+    if len(preamble) != f1:
+        raise ValueError(f"preamble length {len(preamble)} != f1 {f1}")
     comp = compress_pixels2(new_pixels, cap=cap)
     f2 = f1 + len(comp); f3 = f1 + len(new_pixels)
     return orig_ecd[:4] + struct.pack('>III', f1, f2, f3) + preamble + comp
