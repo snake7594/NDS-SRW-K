@@ -158,7 +158,7 @@ def canvas_to_4bpp(canvas):
                 if tb not in tile_map:
                     tile_map[tb] = len(tiles)
                     tiles.append(tb)
-                scr.append(tile_map[tb] | 0xF000)
+                scr.append(tile_map[tb])  # palette slot 0 (matches original JP)
 
     tile_data = b''.join(tiles)
     return tile_data, scr

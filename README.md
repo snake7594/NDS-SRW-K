@@ -1,4 +1,4 @@
-# Super Robot Wars K — 한글화 도구 (SRWK Korean Translation Toolkit)
+﻿# Super Robot Wars K — 한글화 도구 (SRWK Korean Translation Toolkit)
 
 닌텐도 DS **슈퍼로봇대전 K** (Super Robot Wars K, バンプレスト/2009)의 한글 번역을 완성·확장하기 위한 리버스 엔지니어링 도구 모음입니다. 기존 YameSoft 한글 패치에서 미번역으로 남아 있던 부분(메뉴, 기체명, 시스템 메시지, 스태프 크레딧, 후반부 시나리오)을 채우고, **타이틀 로고 한글화**와 **시나리오 대사 박스 넘침으로 인한 프리즈** 등을 해결했습니다.
 
@@ -21,7 +21,7 @@
 2. **기준 ROM** (본인이 합법적으로 덤프한 것):
    - `Super Robot Wars K (Japan).nds` — **67,108,864 바이트, CRC32 `D16DB8AF`**
 3. 결과 ROM:
-   - `Super Robot Wars K (Korean).nds` — **63,691,104 바이트, CRC32 `41CDA9D4`**
+   - `Super Robot Wars K (Korean).nds` — **63,691,104 바이트, CRC32 `689CE1C0`**
 
 > 이 패치는 **YameSoft 한글 패치(ch1~24 등)를 기반으로**, 후반 시나리오 완역 · 메뉴/기체명/시스템 메시지/스태프 크레딧 · 타이틀 로고 한글화 · **전 챕터 아이캐치 한글화** · 대사 박스 프리즈 수정을 더한 것입니다. xdelta 패치는 차분(diff)일 뿐 게임 데이터를 포함하지 않으므로, 적용하려면 위 기준 ROM이 필요합니다.
 
