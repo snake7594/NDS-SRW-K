@@ -17,10 +17,12 @@ FONT_PATH = r"C:\Windows\Fonts\malgunbd.ttf"  # Malgun Gothic Bold
 
 KR_ADD02 = 'kr/add02_patched.bin'
 
-# ── nibble mapping (same as eyecatch) ────────────────────────────────────────
+# ── nibble mapping ────────────────────────────────────────────────────────────
 def rgba_to_nibble(r, g, b, a):
     if a == 0: return 0
-    return max(1, min(15, round(a * 15 / 255)))
+    # Map luminance → palette index: black(0,0,0)→1, white(255,255,255)→15
+    luma = (r + g + b) // 3
+    return max(1, min(15, round(luma * 14 / 255) + 1))
 
 def _norm(s):
     return s.replace('・', '·').replace('〜', '~').replace('​', '')
@@ -99,7 +101,7 @@ def make_copyright_canvas(lines_y, lines_text, line_w_hints):
     line_w_hints: available pixel widths
     Returns 256×192 RGBA canvas.
     """
-    canvas = Image.new('RGBA', (256,192), (0,0,0,0))
+    canvas = Image.new('RGBA', (256,192), (0,0,0,255))  # opaque black bg → nibble 1
     draw = ImageDraw.Draw(canvas)
     for (y0,y1), text, avail_w in zip(lines_y, lines_text, line_w_hints):
         band_h = y1 - y0  # typically 16
@@ -207,9 +209,9 @@ def render_text_to_tile_bytes(text, avail_w, n_tiles_wide, sizes=(10,9,8,7)):
             row = []
             for y in range(8):
                 for xi in range(0,8,2):
-                    # Binary threshold: alpha>=128 → nibble 15, else 0
-                    n0 = 15 if px[tx*8+xi,   ty*8+y][3] >= 128 else 0
-                    n1 = 15 if px[tx*8+xi+1, ty*8+y][3] >= 128 else 0
+                    # Binary threshold: alpha>=128 → nibble 15, else 1 (black)
+                    n0 = 15 if px[tx*8+xi,   ty*8+y][3] >= 128 else 1
+                    n1 = 15 if px[tx*8+xi+1, ty*8+y][3] >= 128 else 1
                     row.append(n0|(n1<<4))
             tiles.append(bytes(row))
     # tiles[0..n_tiles_wide-1] = row0; tiles[n_tiles_wide..] = row1
