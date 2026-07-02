@@ -18,18 +18,19 @@
 
 ## 패치 다운로드 & 적용 (Patch)
 
-완성된 한글 패치: **[`patch/SRWK-Korean-v1.3.xdelta`](patch/SRWK-Korean-v1.3.xdelta)** (약 1.5 MB, xdelta3 / VCDIFF)
+완성된 한글 패치: **[`patch/SRWK-Korean-v1.4.xdelta`](patch/SRWK-Korean-v1.4.xdelta)** (약 1.6 MB, xdelta3 / VCDIFF)
 
 1. xdelta 적용 도구(xdelta UI, Delta Patcher 등) 또는 명령줄:
    ```
-   xdelta3 -d -s "Super Robot Wars K (Japan).nds" SRWK-Korean-v1.3.xdelta "Super Robot Wars K (Korean).nds"
+   xdelta3 -d -s "Super Robot Wars K (Japan).nds" SRWK-Korean-v1.4.xdelta "Super Robot Wars K (Korean).nds"
    ```
 2. **기준 ROM** (본인이 합법적으로 덤프한 것):
    - `Super Robot Wars K (Japan).nds` — **67,108,864 바이트, CRC32 `D16DB8AF`**
 3. 결과 ROM:
-   - `Super Robot Wars K (Korean).nds` — **63,691,104 바이트, CRC32 `0635A149`**
+   - `Super Robot Wars K (Korean).nds` — **63,691,104 바이트, CRC32 `A9C85465`**
 
-> **v1.3 변경**: 저작권·반다이남코·저장 오류 화면의 색상 반전 수정 — 회색 배경/뒤집힌 명암을 **검은 배경 + 흰 글씨**로 정상화 (add02 #1119·#1880·#1881·#2371~#2374). v1.2 대비 이 이미지 블록만 변경되었으며 다른 데이터는 바이트 단위로 동일합니다.
+> **v1.4 변경**: **전투 UI 이미지 플레이트 한글화** — 특수능력 이름·상태이상(저하/흡수 L1~3)·시리즈 타이틀 등 사전 렌더 그래픽 총 110개 + 시리즈 타이틀 14개 (add04 #24~119·#140~167). v1.3 대비 `add04dat.bin`만 변경되었으며 다른 데이터는 바이트 단위로 동일합니다.
+> **v1.3**: 저작권·반다이남코·저장 오류 화면의 색상 반전 수정 (검은 배경 + 흰 글씨, add02).
 
 > 이 패치는 **YameSoft 한글 패치(ch1~24 등)를 기반으로**, 후반 시나리오 완역 · 메뉴/기체명/시스템 메시지/스태프 크레딧 · 타이틀 로고 한글화 · **전 챕터 아이캐치 한글화** · 대사 박스 프리즈 수정을 더한 것입니다. xdelta 패치는 차분(diff)일 뿐 게임 데이터를 포함하지 않으므로, 적용하려면 위 기준 ROM이 필요합니다.
 
@@ -61,6 +62,8 @@
 | 저작권 크레딧 (©화면 2장) | `data/add02dat.bin` #2371~#2374 | ✅ 한국어 (6행 × 2화면, Malgun Gothic 4bpp · 검은 배경/흰 글씨, v1.3) |
 | 반다이남코 크레딧 | `data/add02dat.bin` #1880~#1881 | ✅ 「주식회사 반다이남코게임스」 (검은 배경/흰 글씨, v1.3) |
 | 저장/카드 오류 메시지 (3종) | `data/add02dat.bin` #1119~#1122 | ✅ 한국어 (저장 중/전원 끄지 말 것/읽기·쓰기 오류 · 검은 배경/흰 글씨, v1.3) |
+| 특수능력·상태이상 UI 플레이트 (96개) | `data/add04dat.bin` #24~119 | ✅ 한국어 (능력명·저하/흡수 L1~3·특수효과 무효 · 노란 그라데이션, v1.4) |
+| 시리즈 타이틀 (14개) | `data/add04dat.bin` #140~167 | ✅ 한국어 (건담 SEED·마징가 Z·창궁의 파프너 등 · 파란 로고, v1.4) |
 
 ---
 

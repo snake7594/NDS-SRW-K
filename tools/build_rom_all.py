@@ -33,6 +33,11 @@ def patch(out_path=OUT_ROM):
     if os.path.exists(add02p):
         rom.set("data/add02dat.bin", open(add02p, "rb").read())
         print(f"  add02   : injected Korean title logo")
+    # add04: inject Korean ability/status text plates (blocks 24-119, see _inject_plates.py)
+    add04p = os.path.join(HERE, "kr", "add04_patched.bin")
+    if os.path.exists(add04p):
+        rom.set("data/add04dat.bin", open(add04p, "rb").read())
+        print(f"  add04   : injected Korean UI plates")
     # arm9: inject the 15 untranslated name/system-message fixes (see _inject_arm9.py)
     arm9p = os.path.join(HERE, "kr", "arm9_patched.bin")
     if os.path.exists(arm9p):
