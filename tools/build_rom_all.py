@@ -17,9 +17,37 @@ ROOT = os.path.dirname(HERE)
 KR_ROM = os.path.join(ROOT, "Super Robot Wars K (Korean)-기존패치.nds")
 OUT_ROM = os.path.join(ROOT, "Super Robot Wars K (Korean)-NEW.nds")
 
+# ── release version — UPDATE THIS on each version bump; written to the ROM banner
+#    title so the emulator's "ROM display name" matches the released patch. ──
+VERSION = "1.6"
+BANNER_TITLE = "슈퍼로봇대전K 버전 {ver}\n한글화 YameSoft 2009"
+
 
 def _sha(b):
     return hashlib.sha1(b).hexdigest()
+
+
+def _crc16_modbus(data):
+    crc = 0xFFFF
+    for byte in data:
+        crc ^= byte
+        for _ in range(8):
+            crc = (crc >> 1) ^ 0xA001 if crc & 1 else crc >> 1
+    return crc & 0xFFFF
+
+
+def patch_banner(rom, version):
+    """Set the NDS icon-banner title (all language slots) to reflect `version`,
+    then fix the banner CRC16. version-1 banner: 6 langs @0x240 + i*0x100 (256B UTF-16LE)."""
+    b = bytearray(rom.iconBanner)
+    enc = BANNER_TITLE.format(ver=version).encode("utf-16-le")
+    assert len(enc) <= 256, "banner title too long"
+    for i in range(6):
+        o = 0x240 + i * 0x100
+        b[o:o + 256] = (enc + b"\x00" * (256 - len(enc)))[:256]
+    struct.pack_into("<H", b, 0x02, _crc16_modbus(bytes(b[0x20:0x840])))
+    rom.iconBanner = bytes(b)
+    print(f"  banner  : title -> 버전 {version}")
 
 
 def patch(out_path=OUT_ROM):
@@ -55,6 +83,7 @@ def patch(out_path=OUT_ROM):
         struct.pack_into("<I", ot, 3 * 32 + 8, len(d))     # ramSize = new file size
         rom.rom.arm9OverlayTable = bytes(ot)
         print(f"  ovl_003 : injected credits ({len(d)} B, ramSize updated)")
+    patch_banner(rom.rom, VERSION)
     rom.save(out_path)
     print(f"saved {out_path}")
     print(f"  scenario: re-encoded {s3['changed']} blocks")
