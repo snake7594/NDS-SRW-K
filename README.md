@@ -18,18 +18,19 @@
 
 ## 패치 다운로드 & 적용 (Patch)
 
-완성된 한글 패치: **[`patch/SRWK-Korean-v1.9.xdelta`](patch/SRWK-Korean-v1.9.xdelta)** (약 1.6 MB, xdelta3 / VCDIFF)
+완성된 한글 패치: **[`patch/SRWK-Korean-v1.10.xdelta`](patch/SRWK-Korean-v1.10.xdelta)** (약 1.6 MB, xdelta3 / VCDIFF)
 
 1. xdelta 적용 도구(xdelta UI, Delta Patcher 등) 또는 명령줄:
    ```
-   xdelta3 -d -s "Super Robot Wars K (Japan).nds" SRWK-Korean-v1.9.xdelta "Super Robot Wars K (Korean).nds"
+   xdelta3 -d -s "Super Robot Wars K (Japan).nds" SRWK-Korean-v1.10.xdelta "Super Robot Wars K (Korean).nds"
    ```
 2. **기준 ROM** (본인이 합법적으로 덤프한 것):
    - `Super Robot Wars K (Japan).nds` — **67,108,864 바이트, CRC32 `D16DB8AF`**
 3. 결과 ROM:
-   - `Super Robot Wars K (Korean).nds` — **63,693,664 바이트, CRC32 `85E6FDF5`**
+   - `Super Robot Wars K (Korean).nds` — **63,693,664 바이트, CRC32 `BCFBEBA8`**
 
-> **v1.9 변경**: 정신 커맨드 발동 이미지 `ひらめき` 오역 수정 — **번쩍임 → 번뜩임** (add02 #2168). 해당 블록만 변경.
+> **v1.10 변경**: 시나리오 대사 오타 수정(「나고」→「나도」) + 인게임 한글화 크레딧 갱신(YameSoft ＋ 부끄지).
+> **v1.9**: 정신 커맨드 발동 이미지 `ひらめき` 오역 수정 — **번쩍임 → 번뜩임** (add02 #2168).
 > **v1.8**: 전투 대사 오역 대량 수정 (디코더 테이블 결함 복구, 1,302줄 + 적 유닛명 7개). 원본 전투 디코더 테이블에 문자 52개(카타카나 `キサチテミムブ` 등)가 누락돼 추출 시 글자가 빠졌고, 그 손상된 원문으로 번역된 **2,434줄이 오역**돼 있었습니다 — 예: `キラ`(키라)→"라", `オーバースキル`→오버스컬/오버술, `ブレストファイヤー`→러스트 파이어. 테이블 복구 + 재추출 + 재번역으로 **1,302줄 교정**. 추가로 적 유닛명 7개(자프트ヘイ→**자프트 병사** 등, `ドロイド` 오역 드루이드→**드로이드**) 수정.
 > **v1.7**: 전투 UI 라벨·컷인 잔여 일본어 이미지 6개 (add02 #1889·2205·2207·2209·2211, add04 #9566).
 > **v1.6**: 정신 커맨드 발동 그래픽 51개 (add02 #2152~2202).
