@@ -18,18 +18,19 @@
 
 ## 패치 다운로드 & 적용 (Patch)
 
-완성된 한글 패치: **[`patch/SRWK-Korean-v1.7.xdelta`](patch/SRWK-Korean-v1.7.xdelta)** (약 1.6 MB, xdelta3 / VCDIFF)
+완성된 한글 패치: **[`patch/SRWK-Korean-v1.8.xdelta`](patch/SRWK-Korean-v1.8.xdelta)** (약 1.6 MB, xdelta3 / VCDIFF)
 
 1. xdelta 적용 도구(xdelta UI, Delta Patcher 등) 또는 명령줄:
    ```
-   xdelta3 -d -s "Super Robot Wars K (Japan).nds" SRWK-Korean-v1.7.xdelta "Super Robot Wars K (Korean).nds"
+   xdelta3 -d -s "Super Robot Wars K (Japan).nds" SRWK-Korean-v1.8.xdelta "Super Robot Wars K (Korean).nds"
    ```
 2. **기준 ROM** (본인이 합법적으로 덤프한 것):
    - `Super Robot Wars K (Japan).nds` — **67,108,864 바이트, CRC32 `D16DB8AF`**
 3. 결과 ROM:
-   - `Super Robot Wars K (Korean).nds` — **63,691,104 바이트, CRC32 `9E46535E`**
+   - `Super Robot Wars K (Korean).nds` — **63,693,664 바이트, CRC32 `3C17CC93`**
 
-> **v1.7 변경**: **전투 UI 라벨·컷인 잔여 일본어 이미지 한글화 (전수조사 결과)** — 전투 특수능력/상태 라벨판 4장(add02 #2205·2207·2209·2211: 카운터·회피·분신·전자실드·조준치·특수효과무효 등), 전투 커맨드 아이콘 `攻反防避`→`공반방피`(add02 #1889), `無敵`→`무적` 컷인(add04 #9566). 전 이미지 그래픽 7,447개 전수조사로 잔여분을 모두 찾아 처리. v1.6 대비 이 6블록만 변경.
+> **v1.8 변경**: **전투 대사 오역 대량 수정 (디코더 결함 복구).** 원본 전투 디코더 테이블에 문자 52개(카타카나 `キサチテミムブ` 등)가 누락돼 추출 시 글자가 빠졌고, 그 손상된 원문으로 번역된 **2,434줄이 오역**돼 있었습니다 — 예: `キラ`(키라)→"라", `オーバースキル`→오버스컬/오버술, `ブレストファイヤー`→러스트 파이어. 테이블 복구 + 재추출 + 재번역으로 **1,302줄 교정**. 추가로 적 유닛명 7개(자프트ヘイ→**자프트 병사** 등, `ドロイド` 오역 드루이드→**드로이드**) 수정.
+> **v1.7**: 전투 UI 라벨·컷인 잔여 일본어 이미지 6개 (add02 #1889·2205·2207·2209·2211, add04 #9566).
 > **v1.6**: 정신 커맨드 발동 그래픽 51개 (add02 #2152~2202).
 > **v1.5**: 시간경과 캡션 (2개월 후…·1년 후…) + 전투 `크리티컬`.
 > **v1.4**: 전투 UI 플레이트 — 특수능력·상태이상 96개 + 시리즈 타이틀 14개 (add04).
