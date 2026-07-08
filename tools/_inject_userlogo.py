@@ -126,13 +126,17 @@ def attempt(FREE_T, MAXC):
         if pn in SHARED_PN or not dl:
             continue
         u = usage[pn]
-        freed = [k for k in range(1, 16) if u[k] < FREE_T]
         kept = [k for k in range(1, 16) if u[k] >= FREE_T]
-        if not freed or not kept:
+        if not kept:                           # near-fully-freed palette (e.g. pn12):
+            kept = [k for k in range(1, 16) if u[k] > 0]   # preserve only truly-used entries
+        freed = [k for k in range(1, 16) if k not in kept]
+        if not freed:
             continue
         cols0 = pal_of(pn, PLT0)
         remap[pn] = {}
         for fk in freed:                       # unchanged px on freed entries -> nearest kept
+            if u[fk] == 0 or not kept:
+                continue
             fr, fg, fb = cols0[fk]
             remap[pn][fk] = min(kept, key=lambda kk: (cols0[kk][0]-fr)**2 +
                                 (cols0[kk][1]-fg)**2 + (cols0[kk][2]-fb)**2)
