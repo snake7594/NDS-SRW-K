@@ -15,7 +15,7 @@ from PIL import Image, ImageFont, ImageDraw
 from srwk_codec import HAN2CODE, CODE2HAN
 
 FONT_TTF = 'Galmuri11.ttf'
-FONT_PX  = 11
+FONT_PX  = 12          # em=1200 -> 100 units/px at size 12: grid-exact (0 AA) & fills the 12x12 cell
 FONT_BASE = 0x43EB8
 S = 26
 X_OFF, Y_OFF = 0, 0     # placement of the glyph inside the 12x12 cell
