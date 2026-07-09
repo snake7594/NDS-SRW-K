@@ -18,18 +18,19 @@
 
 ## 패치 다운로드 & 적용 (Patch)
 
-완성된 한글 패치: **[`patch/SRWK-Korean-v1.12.xdelta`](patch/SRWK-Korean-v1.12.xdelta)** (약 1.6 MB, xdelta3 / VCDIFF)
+완성된 한글 패치: **[`patch/SRWK-Korean-v1.13.xdelta`](patch/SRWK-Korean-v1.13.xdelta)** (약 1.6 MB, xdelta3 / VCDIFF)
 
 1. xdelta 적용 도구(xdelta UI, Delta Patcher 등) 또는 명령줄:
    ```
-   xdelta3 -d -s "Super Robot Wars K (Japan).nds" SRWK-Korean-v1.12.xdelta "Super Robot Wars K (Korean).nds"
+   xdelta3 -d -s "Super Robot Wars K (Japan).nds" SRWK-Korean-v1.13.xdelta "Super Robot Wars K (Korean).nds"
    ```
 2. **기준 ROM** (본인이 합법적으로 덤프한 것):
    - `Super Robot Wars K (Japan).nds` — **67,108,864 바이트, CRC32 `D16DB8AF`**
 3. 결과 ROM:
-   - `Super Robot Wars K (Korean).nds` — **63,693,664 바이트, CRC32 `6508B07E`**
+   - `Super Robot Wars K (Korean).nds` — **63,693,664 바이트, CRC32 `311304BD`**
 
-> **v1.12 변경**: 타이틀 로고 색 수정 — 「슈퍼로봇대전」 글자 뒤 판이 갈색으로 보이던 문제를 검정으로 수정 (pn12 팔레트 재배정 누락 수정). *(갱신: 전투 대사 1줄 다듬기 반영)*
+> **v1.13 변경**: **대사 폰트를 갈무리11(Galmuri11)로 교체** — 한글 완성형 2,349자 글리프를 갈무리11 비트맵 폰트로 재작성 (arm9 SJIS 인덱스 폰트 테이블 in-place). 폰트: [Galmuri](https://galmuri.quiple.dev/) by 정예하(quiple), SIL Open Font License 1.1.
+> **v1.12**: 타이틀 로고 색 수정(글자 뒤 판 갈색→검정) + 전투 대사 다듬기.
 > **v1.11**: **타이틀 로고 리뉴얼** — 부끄지 님이 새로 그린 「슈퍼로봇대전K」 로고 아트로 교체 (add02 #2359 팔레트 최적화 + #2360 타일).
 > **v1.10**: 시나리오 대사 오타 수정(「나고」→「나도」) + 인게임 한글화 크레딧 갱신(YameSoft ＋ 부끄지).
 > **v1.9**: 정신 커맨드 발동 이미지 `ひらめき` 오역 수정 — **번쩍임 → 번뜩임** (add02 #2168).
