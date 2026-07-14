@@ -19,7 +19,7 @@ OUT_ROM = os.path.join(ROOT, "Super Robot Wars K (Korean)-NEW.nds")
 
 # ── release version — UPDATE THIS on each version bump; written to the ROM banner
 #    title so the emulator's "ROM display name" matches the released patch. ──
-VERSION = "1.14"
+VERSION = "1.15"
 BANNER_TITLE = "슈퍼로봇대전K 버전 {ver}\n한글화 YameSoft + 부끄지"
 
 

@@ -18,18 +18,19 @@
 
 ## 패치 다운로드 & 적용 (Patch)
 
-완성된 한글 패치: **[`patch/SRWK-Korean-v1.14.xdelta`](patch/SRWK-Korean-v1.14.xdelta)** (약 1.6 MB, xdelta3 / VCDIFF)
+완성된 한글 패치: **[`patch/SRWK-Korean-v1.15.xdelta`](patch/SRWK-Korean-v1.15.xdelta)** (약 1.6 MB, xdelta3 / VCDIFF)
 
 1. xdelta 적용 도구(xdelta UI, Delta Patcher 등) 또는 명령줄:
    ```
-   xdelta3 -d -s "Super Robot Wars K (Japan).nds" SRWK-Korean-v1.14.xdelta "Super Robot Wars K (Korean).nds"
+   xdelta3 -d -s "Super Robot Wars K (Japan).nds" SRWK-Korean-v1.15.xdelta "Super Robot Wars K (Korean).nds"
    ```
 2. **기준 ROM** (본인이 합법적으로 덤프한 것):
    - `Super Robot Wars K (Japan).nds` — **67,108,864 바이트, CRC32 `D16DB8AF`**
 3. 결과 ROM:
-   - `Super Robot Wars K (Korean).nds` — **63,693,664 바이트, CRC32 `DE5EB2E0`**
+   - `Super Robot Wars K (Korean).nds` — **63,693,664 바이트, CRC32 `EE259CEB`**
 
-> **v1.14 변경**: 갈무리11 글리프를 **12px 크기로 재렌더**해 12×12 셀을 꽉 채움(선명도 향상 — em 1200÷12=100u/px 그리드 정확 일치, 안티앨리어싱 0). 폰트: [Galmuri](https://galmuri.quiple.dev/) by 정예하(quiple), SIL OFL 1.1.
+> **v1.15 변경**: 전투 발동 이미지 표시폭 수정 — 게임이 일본어 원본 그림 폭으로 잘라 보여줘서 「탄창 회복」 등 9개가 잘리던 문제를 원본 폭 안으로 재렌더(add02 #2154·2158·2160·2161·2163·2164·2200~2202). 「크리티컬」(add04 #14)은 일본어처럼 표시창을 꽉 채우도록 자간 조정(우측 이웃 타일 노출 완화).
+> **v1.14**: 갈무리11 글리프 12px 재렌더(12×12 꽉 채움). 폰트: [Galmuri](https://galmuri.quiple.dev/) by 정예하(quiple), SIL OFL 1.1.
 > **v1.13**: 대사 폰트를 갈무리11(Galmuri11)로 교체 (한글 완성형 2,349자).
 > **v1.12**: 타이틀 로고 색 수정(글자 뒤 판 갈색→검정) + 전투 대사 다듬기.
 > **v1.11**: **타이틀 로고 리뉴얼** — 부끄지 님이 새로 그린 「슈퍼로봇대전K」 로고 아트로 교체 (add02 #2359 팔레트 최적화 + #2360 타일).
