@@ -19,7 +19,7 @@ OUT_ROM = os.path.join(ROOT, "Super Robot Wars K (Korean)-NEW.nds")
 
 # ── release version — UPDATE THIS on each version bump; written to the ROM banner
 #    title so the emulator's "ROM display name" matches the released patch. ──
-VERSION = "1.15"
+VERSION = "1.16"
 BANNER_TITLE = "슈퍼로봇대전K 버전 {ver}\n한글화 YameSoft + 부끄지"
 
 
@@ -73,16 +73,21 @@ def patch(out_path=OUT_ROM):
         assert len(a9) == len(rom.rom.arm9), "patched arm9 size mismatch"
         rom.rom.arm9 = a9
         print(f"  arm9    : injected name/system-message patch ({len(a9)} B)")
-    # ovl_003: inject Korean staff-credits (overlay EXTENDED -> update ramSize in
-    # the arm9 overlay table, entry index == overlayID 3, ramSize @ entry+8).
+    # ovl_003: inject Korean staff-credits. MUST stay the ORIGINAL size (10240):
+    # ovl3 shares its RAM window (0x021E6700) with ovl0/1/2/4/18 and the game uses
+    # the memory right after the overlay's original end, so ANY extension gets
+    # clobbered -> garbled credits + freeze (the v1.0~v1.15 ending-credits bug).
+    # _inject_credits_noext.py repacks all 142 strings inside the original pool.
     ovl3 = os.path.join(HERE, "kr", "overlays", "ovl_003_patched.bin")
     if os.path.exists(ovl3):
         d = open(ovl3, "rb").read()
+        assert len(d) == len(rom.rom.files[3]), \
+            f"ovl_003 must NOT be extended ({len(d)} vs {len(rom.rom.files[3])})"
         rom.rom.files[3] = d
         ot = bytearray(rom.rom.arm9OverlayTable)
-        struct.pack_into("<I", ot, 3 * 32 + 8, len(d))     # ramSize = new file size
+        struct.pack_into("<I", ot, 3 * 32 + 8, len(d))     # ramSize == original
         rom.rom.arm9OverlayTable = bytes(ot)
-        print(f"  ovl_003 : injected credits ({len(d)} B, ramSize updated)")
+        print(f"  ovl_003 : injected credits ({len(d)} B, size unchanged)")
     patch_banner(rom.rom, VERSION)
     rom.save(out_path)
     print(f"saved {out_path}")

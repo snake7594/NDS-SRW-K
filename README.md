@@ -18,18 +18,21 @@
 
 ## 패치 다운로드 & 적용 (Patch)
 
-완성된 한글 패치: **[`patch/SRWK-Korean-v1.15.xdelta`](patch/SRWK-Korean-v1.15.xdelta)** (약 1.6 MB, xdelta3 / VCDIFF)
+완성된 한글 패치: **[`patch/SRWK-Korean-v1.16.xdelta`](patch/SRWK-Korean-v1.16.xdelta)** (약 1.6 MB, xdelta3 / VCDIFF)
 
 1. xdelta 적용 도구(xdelta UI, Delta Patcher 등) 또는 명령줄:
    ```
-   xdelta3 -d -s "Super Robot Wars K (Japan).nds" SRWK-Korean-v1.15.xdelta "Super Robot Wars K (Korean).nds"
+   xdelta3 -d -s "Super Robot Wars K (Japan).nds" SRWK-Korean-v1.16.xdelta "Super Robot Wars K (Korean).nds"
    ```
 2. **기준 ROM** (본인이 합법적으로 덤프한 것):
    - `Super Robot Wars K (Japan).nds` — **67,108,864 바이트, CRC32 `D16DB8AF`**
 3. 결과 ROM:
-   - `Super Robot Wars K (Korean).nds` — **63,693,664 바이트, CRC32 `EE259CEB`**
+   - `Super Robot Wars K (Korean).nds` — **63,693,664 바이트, CRC32 `BD9725D3`**
 
-> **v1.15 변경**: 전투 발동 이미지 표시폭 수정 — 게임이 일본어 원본 그림 폭으로 잘라 보여줘서 「탄창 회복」 등 9개가 잘리던 문제를 원본 폭 안으로 재렌더(add02 #2154·2158·2160·2161·2163·2164·2200~2202). 「크리티컬」(add04 #14)은 일본어처럼 표시창을 꽉 채우도록 자간 조정(우측 이웃 타일 노출 완화).
+> ### ⚠ **v1.16 — 엔딩 크레딧 멈춤 치명적 버그 수정 (필수 업데이트)**
+> 1회차 클리어 후 **엔딩 크레딧에서 글자가 깨지고 진행이 멈추던** 문제를 수정했습니다. 원인은 크레딧 오버레이(ovl_003)를 10,240→11,292바이트로 **확장**한 것 — 이 오버레이는 RAM 영역을 다른 오버레이들과 공유해서, 확장한 부분이 게임에 의해 덮여 스태프 이름 63개가 쓰레기 글자로 나오고 멈췄습니다. 오버레이를 **원래 크기 그대로 두고** 문자열 142개를 기존 공간 안에 재배치해 해결했습니다. **v1.15 이하 사용자는 반드시 업데이트하세요.**
+>
+> **v1.15**: 전투 발동 이미지 표시폭 수정 — 게임이 일본어 원본 그림 폭으로 잘라 보여줘서 「탄창 회복」 등 9개가 잘리던 문제를 원본 폭 안으로 재렌더(add02 #2154·2158·2160·2161·2163·2164·2200~2202). 「크리티컬」(add04 #14)은 일본어처럼 표시창을 꽉 채우도록 자간 조정(우측 이웃 타일 노출 완화).
 > **v1.14**: 갈무리11 글리프 12px 재렌더(12×12 꽉 채움). 폰트: [Galmuri](https://galmuri.quiple.dev/) by 정예하(quiple), SIL OFL 1.1.
 > **v1.13**: 대사 폰트를 갈무리11(Galmuri11)로 교체 (한글 완성형 2,349자).
 > **v1.12**: 타이틀 로고 색 수정(글자 뒤 판 갈색→검정) + 전투 대사 다듬기.
