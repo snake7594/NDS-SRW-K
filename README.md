@@ -18,19 +18,25 @@
 
 ## 패치 다운로드 & 적용 (Patch)
 
-완성된 한글 패치: **[`patch/SRWK-Korean-v1.16.xdelta`](patch/SRWK-Korean-v1.16.xdelta)** (약 1.6 MB, xdelta3 / VCDIFF)
+완성된 한글 패치: **[`patch/SRWK-Korean-v1.17.xdelta`](patch/SRWK-Korean-v1.17.xdelta)** (약 1.6 MB, xdelta3 / VCDIFF)
 
 1. xdelta 적용 도구(xdelta UI, Delta Patcher 등) 또는 명령줄:
    ```
-   xdelta3 -d -s "Super Robot Wars K (Japan).nds" SRWK-Korean-v1.16.xdelta "Super Robot Wars K (Korean).nds"
+   xdelta3 -d -s "Super Robot Wars K (Japan).nds" SRWK-Korean-v1.17.xdelta "Super Robot Wars K (Korean).nds"
    ```
 2. **기준 ROM** (본인이 합법적으로 덤프한 것):
    - `Super Robot Wars K (Japan).nds` — **67,108,864 바이트, CRC32 `D16DB8AF`**
 3. 결과 ROM:
-   - `Super Robot Wars K (Korean).nds` — **63,693,664 바이트, CRC32 `BD9725D3`**
+   - `Super Robot Wars K (Korean).nds` — **63,693,664 바이트, CRC32 `DBC931FF`**
 
-> ### ⚠ **v1.16 — 엔딩 크레딧 멈춤 치명적 버그 수정 (필수 업데이트)**
-> 1회차 클리어 후 **엔딩 크레딧에서 글자가 깨지고 진행이 멈추던** 문제를 수정했습니다. 원인은 크레딧 오버레이(ovl_003)를 10,240→11,292바이트로 **확장**한 것 — 이 오버레이는 RAM 영역을 다른 오버레이들과 공유해서, 확장한 부분이 게임에 의해 덮여 스태프 이름 63개가 쓰레기 글자로 나오고 멈췄습니다. 오버레이를 **원래 크기 그대로 두고** 문자열 142개를 기존 공간 안에 재배치해 해결했습니다. **v1.15 이하 사용자는 반드시 업데이트하세요.**
+> ### ⚠ **v1.17 — 엔딩 크레딧 멈춤 치명적 버그 수정 (필수 업데이트)**
+> 1회차 클리어 후 **엔딩 크레딧에서 글자가 깨지고 진행이 멈추던** 문제를 수정했습니다.
+>
+> 원인은 **문자열 길이**였습니다. 크레딧 렌더러는 각 문자열을 **일본어 원본의 길이 기준 예산**으로 그리는데, 일본어 이름의 한글 음역은 약 2배로 깁니다(「鈴木　克弘」 10B → 「스즈키 카츠히로」 16B). 그래서 옆 슬롯을 침범해 쓰레기 글자 + 멈춤이 발생했습니다. 이제 **142개 문자열 전부를 원본 길이 이하로, 원본 위치 그대로(in-place)** 넣습니다. 넘치는 인명 84개는 **성(姓)만 표기**합니다(「스즈키 카츠히로」→「스즈키」).
+>
+> 참고로 일본어로 되돌리는 건 해법이 아닙니다 — 한글 폰트가 SJIS 0x889F~0x94FC를 한글로 덮어써서, 그 구간의 한자는 엉뚱한 한글로 나옵니다(「鈴木　克弘」→「鈴木　뱃눠」). 야메소프트 원본 크레딧이 이미 이렇게 깨져 있습니다.
+>
+> **v1.16 이하 사용자는 반드시 업데이트하세요.** (v1.16은 문자열의 *위치*만 고쳤을 뿐 *길이*는 그대로여서 이 버그를 고치지 못했습니다.)
 >
 > **v1.15**: 전투 발동 이미지 표시폭 수정 — 게임이 일본어 원본 그림 폭으로 잘라 보여줘서 「탄창 회복」 등 9개가 잘리던 문제를 원본 폭 안으로 재렌더(add02 #2154·2158·2160·2161·2163·2164·2200~2202). 「크리티컬」(add04 #14)은 일본어처럼 표시창을 꽉 채우도록 자간 조정(우측 이웃 타일 노출 완화).
 > **v1.14**: 갈무리11 글리프 12px 재렌더(12×12 꽉 채움). 폰트: [Galmuri](https://galmuri.quiple.dev/) by 정예하(quiple), SIL OFL 1.1.
@@ -69,7 +75,7 @@
 | 시나리오 대사 | `data/add03dat.bin` | ✅ 한글 (커스텀 코덱) |
 | 전투 대사 | `data/add05dat.bin` | ✅ 한글 (외부 사전 코덱) |
 | 메뉴 / 기체명 / 시스템 메시지 / 인물명 | `arm9.bin` | ✅ 한글 (in-place / repoint 주입) |
-| 스태프 크레딧 (142개) | `overlay/ovl_003` | ✅ 한글 (오버레이 확장) |
+| 스태프 크레딧 (142개) | `overlay/ovl_003` | ✅ 한글 (원본 길이·위치 유지 in-place, 긴 인명은 성만) |
 | 타이틀 로고 「スーパーロボット大戦」 | `data/add02dat.bin` #2360 | ✅ 「슈퍼로봇대전」 (4th 코덱 재주입) |
 | **용어 일관성 + 품질 리라이트** | 시나리오·전투 | ✅ YS 표기 통일(63규칙) + 전면 품질 리라이트 (시나리오 9.5K박스·전투, 적대적 검증 0오류) |
 | 챕터 아이캐치 「第N話 + 부제」 (59쌍) | `data/add02dat.bin` #2214~#2330 | ✅ 한국어 (Malgun Gothic 4bpp 재주입) |
@@ -157,7 +163,7 @@ tools/
   build_native.py    시나리오 빌드 (대사 박스 3줄 수정 포함)
   build_battle.py    전투 빌드
   build_rom_all.py   전체 ROM 빌드 (시나리오+전투+arm9+크레딧+타이틀 주입)
-  _inject_arm9.py    / _inject_credits.py    주입 (arm9 / 크레딧)
+  _inject_arm9.py    / _inject_credits_fit.py 주입 (arm9 / 크레딧)
   _redraw2.py        ★ 타이틀 로고 OBJ 스프라이트 한글 재작도 (2D 매핑)
   _inject_title.py   / _inject_title3.py    타이틀 #2360 재인코딩·재주입
   _export_png.py     / _import_png.py    로고 PNG 추출/주입 (직접 편집용, display-lossless)
